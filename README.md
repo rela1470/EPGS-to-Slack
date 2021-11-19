@@ -1,7 +1,7 @@
 # EPGS-to-LINE
 
 ## Setup
-run.shを開いてLINE tokenを張り付けEpgstation のcconfigへコピー
+run.shを開いてLINE トークンを書き込みEpgstation のconfigへコピー
 
 config.ymlに下記コマンドを追加
 ```
