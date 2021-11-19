@@ -78,7 +78,7 @@ if [ $# = 1 ]; then
         else
             : # 何もしない
         fi
-        content="\r **録画失敗**\r組名: ${title} \r${CHANNELTYPE} ${CHANNELNAME}\r組概要:\n\`\`\`\r{description}\r`\`\`\rラー: ${ERROR_CNT}, ドロップ: ${DROP_CNT}, スクランブル: ${SCRAMBLING_CNT}"
+        content="\r **録画失敗**\r組名: ${title} \r${CHANNELTYPE} ${CHANNELNAME}\r組概要:\r`\`\`\r{description}\r`\`\`\rラー: ${ERROR_CNT}, ドロップ: ${DROP_CNT}, スクランブル: ${SCRAMBLING_CNT}"
     else
         echo "引数が不正です。"
         exit 1
