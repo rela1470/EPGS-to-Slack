@@ -2,6 +2,7 @@
 
 ## Setup
 run.shを開いてLINE tokenを張り付けEpgstation のcconfigへコピー
+
 config.ymlに下記コマンドを追加
 ```
 reserveNewAddtionCommand: '/bin/sh %ROOT%/config/run.sh reserve'
