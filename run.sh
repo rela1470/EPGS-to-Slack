@@ -84,7 +84,7 @@ if [ $# = 1 ]; then
         exit 1
     fi
     
-    curl -X POST -H "Authorization: Bearer ${LINE_TOKEN}" -F "message=${content}" https://notify-api.line.me/api/notify >
+    curl -X POST -H "Authorization: Bearer ${LINE_TOKEN}" -F "message=${content}" https://notify-api.line.me/api/notify
     
 else
     echo "引数を指定してください。"
