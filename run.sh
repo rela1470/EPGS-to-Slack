@@ -30,19 +30,19 @@ if [ $# = 1 ]; then
     # 引数をコピー (コマンドとして認識されるのを防ぐため)
     ret=$1
 
-   # 予約関係: 追加, 削除, 更新, 録画準備
+# 予約関係: 追加, 削除, 更新, 録画準備
     if [ $ret = "reserve" ]; then
-        content="✅ **予約追加**\n番組名: ${title} @ ${CHANNELTYPE} ${CHANNELNAME}\n番組概要:\n\`\`\`\n${description}\n\`\`\`"
+        content="%0D%0A ✅ 予約追加 %0D%0A 番組名: ${title} @ ${CHANNELTYPE} ${CHANNELNAME} %0D%0A 番組概要: %0D%0A \`\`\` %0D%0A ${description}"
     elif [ $ret = "delete" ]; then
-        content="💨 **予約削除**\n番組名: ${title}@ ${CHANNELTYPE} ${CHANNELNAME}\n番組概要:\n\`\`\`\n${description}\n\`\`\`"
+        content="%0D%0A 💨 予約削除 %0D%0A 番組名: ${title} @ ${CHANNELTYPE} ${CHANNELNAME} %0D%0A 番組概要: %0D%0A \`\`\` %0D%0A ${description}"
     elif [ $ret = "update" ]; then
-        content="🔁 **予約更新**\n番組名: ${title} @ ${CHANNELTYPE} ${CHANNELNAME}\n番組概要:\n\`\`\`\n${description}\n\`\`\`"
+        content="%0D%0A 🔁 予約更新 %0D%0A 番組名: ${title} @ ${CHANNELTYPE} ${CHANNELNAME} %0D%0A 番組概要: %0D%0A \`\`\` %0D%0A ${description}"
     elif [ $ret = "prestart" ]; then
-        content="🔷 **録画準備開始**\n番組名: ${title} @ ${CHANNELTYPE} ${CHANNELNAME}\n番組概要:\n\`\`\`\n${description}\n\`\`\`"
+        content="%0D%0A 🔷 録画準備開始 %0D%0A 番組名: ${title} @ ${CHANNELTYPE} ${CHANNELNAME} %0D%0A 番組概要: %0D%0A \`\`\` %0D%0A ${description}"
     elif [ $ret = "prepfailed" ]; then
-        content="💥 **録画準備失敗**\n番組名: ${title} @ ${CHANNELTYPE} ${CHANNELNAME}\n番組概要:\n\`\`\`\n${description}\n\`\`\`"
+        content="%0D%0A 💥 録画準備失敗 %0D%0A 番組名: ${title} @ ${CHANNELTYPE} ${CHANNELNAME} %0D%0A 番組概要: %0D%0A \`\`\` %0D%0A ${description}"
     elif [ $ret = "start" ]; then
-        content="⏺ **録画開始**\n番組名: ${title} @ ${CHANNELTYPE} ${CHANNELNAME}\n番組概要:\n\`\`\`\n${description}\n\`\`\`"
+        content="%0D%0A ⏺ 録画開始 %0D%0A 番組名: ${title} @ ${CHANNELTYPE} ${CHANNELNAME} %0D%0A 番組概要: %0D%0A \`\`\` %0D%0A ${description}"
     elif [ $ret = "end" ]; then
         # エラー, ドロップ, スクランブルカウントを読み込み
         if [ -z "$ERROR_CNT" ]; then
@@ -60,7 +60,7 @@ if [ $# = 1 ]; then
         else
             : # 何もしない
         fi
-        content="⏹ **録画終了**\n番組名: ${title} @ ${CHANNELTYPE} ${CHANNELNAME}\n番組概要:\n\`\`\`\n${description}\n\`\`\`\nエラー: ${ERROR_CNT}, ドロップ: ${DROP_CNT}, スクランブル: ${SCRAMBLING_CNT}"
+        content="%0D%0A ⏹ 録画終了 %0D%0A 番組名: ${title} @ ${CHANNELTYPE} ${CHANNELNAME} %0D%0A 番組概要: %0D%0A \`\`\` %0D%0A ${description} %0D%0A  エラー: ${ERROR_CNT}, ドロップ: ${DROP_CNT}, スクランブル: ${SCRAMBLING_CNT}"
     elif [ $ret = "recfailed" ]; then
         # エラー, ドロップ, スクランブルカウントを読み込み
         if [ -z "$ERROR_CNT" ]; then
@@ -78,14 +78,14 @@ if [ $# = 1 ]; then
         else
             : # 何もしない
         fi
-        content="❌ **録画失敗**\n番組名: ${title} @ ${CHANNELTYPE} ${CHANNELNAME}\n番組概要:\n\`\`\`\n${description}\n\`\`\`\nエラー: ${ERROR_CNT}, ドロップ: ${DROP_CNT}, スクランブル: ${SCRAMBLING_CNT}"
+        content="%0D%0A ❌ 録画失敗 %0D%0A 番組名: ${title} @ ${CHANNELTYPE} ${CHANNELNAME} %0D%0A 番組概要: %0D%0A \`\`\` %0D%0A ${description} %0D%0A エラー: ${ERROR_CNT}, ドロップ: ${DROP_CNT}, スクランブル: ${SCRAMBLING_CNT}"
     else
         echo "引数が不正です。"
         exit 1
-    fi
+    fi   
         
     
-    curl -X POST -H "Authorization: Bearer ${LINE_TOKEN}" -F "message=${content}" https://notify-api.line.me/api/notify
+    curl -X POST -H "Authorization: Bearer ${LINE_TOKEN}" --data "message= ${content}" https://notify-api.line.me/api/notify
     
 else
     echo "引数を指定してください。"
