@@ -85,7 +85,7 @@ if [ $# = 1 ]; then
     fi   
         
     
-    curl -X POST -H "Authorization: Bearer ${LINE_TOKEN}" --data "message= ${content}" https://notify-api.line.me/api/notify
+    curl -X POST -H "Authorization: Bearer ${LINE_TOKEN}" --data-binary "message= ${content}" GetAsURLEncoded https://notify-api.line.me/api/notify
     
 else
     echo "引数を指定してください。"
