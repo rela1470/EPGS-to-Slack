@@ -13,6 +13,7 @@ recordingPrepRecFailedCommand: '/bin/sh %ROOT%/config/run.sh prepfailed'
 recordingStartCommand: '/bin/sh %ROOT%/config/run.sh start'
 recordingFinishCommand: '/bin/sh %ROOT%/config/run.sh end'
 recordingFailedCommand: '/bin/sh %ROOT%/config/run.sh recfailed'
+encodingFinishCommand: '/bin/sh %ROOT%/config/run.sh encod_end'
 ```
 
 ## License
