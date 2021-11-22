@@ -43,9 +43,11 @@ if [ $# = 1 ]; then
         content="%0D%0A 💥 録画準備失敗 %0D%0A ${title}　@ ${CHANNELTYPE} ${CHANNELNAME}"
     elif [ $ret = "start" ]; then
         content="%0D%0A ⏺ 録画開始 %0D%0A ${title}　@ ${CHANNELTYPE} ${CHANNELNAME}"
-    elif [ $ret = "end" ]; then
-         content="%0D%0A ⏹ エンコード終了 %0D%0A ${title} @ ${CHANNELTYPE} ${CHANNELNAME}"
-    elif [ $ret = "encod_end" ]; then
+   elif [ $ret = "encod_end" ]; then
+        content="%0D%0A ⏹ エンコード終了 %0D%0A ${title} @ ${CHANNELTYPE} ${CHANNELNAME}"
+   elif [ $ret = "end" ]; then
+         content="%0D%0A ⏹ 録画終了 %0D%0A ${title} @ ${CHANNELTYPE} ${CHANNELNAME}"
+    
         # エラー, ドロップ, スクランブルカウントを読み込み
         if [ -z "$ERROR_CNT" ]; then
             ERROR_CNT="N/A"
