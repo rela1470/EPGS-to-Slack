@@ -50,7 +50,7 @@ if [ $# = 1 ]; then
     if [ -z "$ENDAT" ]; then
         endat="未設定"
     else
-        end_epg_time=$(($STARTAT/1000))
+        end_epg_time=$(($ENDTAT/1000))
         end_ust_time=$( unixtime2datetime $end_epg_time )
         end_jst_time=$( date -d "$end_ust_time 9hours" +'%H:%M')
         endat=$end_jst_time
