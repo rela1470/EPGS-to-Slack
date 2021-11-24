@@ -42,21 +42,35 @@ if [ $# = 1 ]; then
     if [ -z "$STARTAT" ]; then
         startat="未設定"
     else  
-    	 epgtime=$(($STARTAT/1000))
-        startat=$( unixtime2datetime $epgtime 2>&1)        
+    	 start_epg_time=$(($STARTAT/1000))
+        start_ust_time=$( unixtime2datetime $start_epg_time )
+        start_jst_time=$( date -d "$start_ust_time 9hours" +'%m/%d   %H:%M')
+        startat=$start_jst_time        
     fi
-    
-
+    if [ -z "$ENDAT" ]; then
+        endat="未設定"
+    else
+        end_epg_time=$(($STARTAT/1000))
+        end_ust_time=$( unixtime2datetime $end_epg_time )
+        end_jst_time=$( date -d "end_ust_time 9hours" +'%H:%M')
+        endat=$end_jst_time
+    fi
+    if [ -z "$EXTENDED" ]; then
+        extended="未設定"
+    else
+        extended=$EXTENDED
+    fi
+       
     # 引数をコピー (コマンドとして認識されるのを防ぐため)
     ret=$1
 
     # 予約関係: 追加, 削除, 更新, 録画準備
     if [ $ret = "reserve" ]; then
-        content="%0D%0A ✅ 予約追加 %0D%0A ${title} %0D%0A ${CHANNELTYPE} ${CHANNELNAME} %0D%0A ${startat} %0D%0A 番組概要: %0D%0A ${description}"
+        content="%0D%0A ✅ 予約追加 %0D%0A ${title} %0D%0A ${CHANNELTYPE} ${CHANNELNAME} %0D%0A ${startat}~${endat} %0D%0A 番組概要: %0D%0A ${description} %0D%0A ${extended}"
     elif [ $ret = "delete" ]; then
         content="%0D%0A 💨 予約削除 %0D%0A ${title} @ ${CHANNELTYPE} ${CHANNELNAME}"
     elif [ $ret = "update" ]; then
-        content="%0D%0A 🔁 予約更新 %0D%0A ${title} @ ${CHANNELTYPE} ${CHANNELNAME} %0D%0A ${startat}"
+        content="%0D%0A 🔁 予約更新 %0D%0A ${title} @ ${CHANNELTYPE} ${CHANNELNAME} %0D%0A ${startat}~${endat}"
     elif [ $ret = "prestart" ]; then
         content="%0D%0A 🔷 録画準備開始 %0D%0A ${title}　@ ${CHANNELTYPE} ${CHANNELNAME}"
     elif [ $ret = "prepfailed" ]; then
