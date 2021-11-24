@@ -96,7 +96,7 @@ if [ $# = 1 ]; then
         else
             : # 何もしない
         fi
-        content="%0D%0A ⏹ 録画終了 %0D%0A ${title} @ ${CHANNELTYPE} ${CHANNELNAME}"
+        content="%0D%0A ⏹ 録画終了 %0D%0A ${title} @ ${CHANNELTYPE} ${CHANNELNAME} %0D%0A エラー: ${ERROR_CNT}, ドロップ: ${DROP_CNT}, スクランブル: ${SCRAMBLING_CNT}
     elif [ $ret = "recfailed" ]; then 
         # エラー, ドロップ, スクランブルカウントを読み込み
         if [ -z "$ERROR_CNT" ]; then
