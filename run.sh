@@ -42,7 +42,7 @@ if [ $# = 1 ]; then
     if [ -z "$STARTAT" ]; then
         startat="未設定"
     else  
-    	 start_epg_time=$(($STARTAT/1000))
+        start_epg_time=$(($STARTAT/1000))
         start_ust_time=$( unixtime2datetime $start_epg_time )
         start_jst_time=$( date -d "$start_ust_time 9hours" +'%m/%d   %H:%M')
         startat=$start_jst_time        
@@ -77,9 +77,9 @@ if [ $# = 1 ]; then
         content="%0D%0A 💥 録画準備失敗 %0D%0A ${title}　@ ${CHANNELTYPE} ${CHANNELNAME}"
     elif [ $ret = "start" ]; then
         content="%0D%0A ⏺ 録画開始 %0D%0A ${title}　@ ${CHANNELTYPE} ${CHANNELNAME}"
-   elif [ $ret = "encod_end" ]; then
+    elif [ $ret = "encod_end" ]; then
         content="%0D%0A ⏹ エンコード終了 %0D%0A ${title} @ ${CHANNELTYPE} ${CHANNELNAME}"
-   elif [ $ret = "end" ]; then
+    elif [ $ret = "end" ]; then
           # エラー, ドロップ, スクランブルカウントを読み込み
         if [ -z "$ERROR_CNT" ]; then
             ERROR_CNT="N/A"
