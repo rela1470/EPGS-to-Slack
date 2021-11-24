@@ -52,11 +52,11 @@ if [ $# = 1 ]; then
 
     # 予約関係: 追加, 削除, 更新, 録画準備
     if [ $ret = "reserve" ]; then
-        content="%0D%0A ✅ 予約追加 %0D%0A ${title} %0D%0A ${CHANNELTYPE} ${CHANNELNAME} %0D%0A 開始時間：${startat} %0D%0A 番組概要: %0D%0A ${description}"
+        content="%0D%0A ✅ 予約追加 %0D%0A ${title} %0D%0A ${CHANNELTYPE} ${CHANNELNAME} %0D%0A 開始日時：${startat} %0D%0A 番組概要: %0D%0A ${description}"
     elif [ $ret = "delete" ]; then
         content="%0D%0A 💨 予約削除 %0D%0A ${title} @ ${CHANNELTYPE} ${CHANNELNAME}"
     elif [ $ret = "update" ]; then
-        content="%0D%0A 🔁 予約更新 %0D%0A ${title} @ ${CHANNELTYPE} ${CHANNELNAME} %0D%0A 開始時間：${startat}"
+        content="%0D%0A 🔁 予約更新 %0D%0A ${title} @ ${CHANNELTYPE} ${CHANNELNAME} %0D%0A 開始日時：${startat}"
     elif [ $ret = "prestart" ]; then
         content="%0D%0A 🔷 録画準備開始 %0D%0A ${title}　@ ${CHANNELTYPE} ${CHANNELNAME}"
     elif [ $ret = "prepfailed" ]; then
