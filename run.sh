@@ -42,7 +42,7 @@ if [ $# = 1 ]; then
     if [ -z "$STARTAT" ]; then
         startat="未設定"
     else  
-    	start_epg_time=$(($STARTAT/1000))
+    	 start_epg_time=$(($STARTAT/1000))
         start_ust_time=$( unixtime2datetime $start_epg_time )
         start_jst_time=$( date -d "$start_ust_time 9hours" +'%m/%d   %H:%M')
         startat=$start_jst_time        
@@ -50,7 +50,7 @@ if [ $# = 1 ]; then
     if [ -z "$ENDAT" ]; then
         endat="未設定"
     else
-        end_epg_time=$(($ENDTAT/1000))
+        end_epg_time=$(($ENDAT/1000))
         end_ust_time=$( unixtime2datetime $end_epg_time )
         end_jst_time=$( date -d "$end_ust_time 9hours" +'%H:%M')
         endat=$end_jst_time
@@ -80,8 +80,24 @@ if [ $# = 1 ]; then
    elif [ $ret = "encod_end" ]; then
         content="%0D%0A ⏹ エンコード終了 %0D%0A ${title} @ ${CHANNELTYPE} ${CHANNELNAME}"
    elif [ $ret = "end" ]; then
-         content="%0D%0A ⏹ 録画終了 %0D%0A ${title} @ ${CHANNELTYPE} ${CHANNELNAME}"
-    
+          # エラー, ドロップ, スクランブルカウントを読み込み
+        if [ -z "$ERROR_CNT" ]; then
+            ERROR_CNT="N/A"
+        else
+            : # 何もしない
+        fi
+        if [ -z "$DROP_CNT" ]; then
+            DROP_CNT="N/A"
+        else
+            : # 何もしない
+        fi
+        if [ -z "$SCRAMBLING_CNT" ]; then
+            SCRAMBLING_CNT="N/A"
+        else
+            : # 何もしない
+        fi
+        content="%0D%0A ⏹ 録画終了 %0D%0A ${title} @ ${CHANNELTYPE} ${CHANNELNAME}"
+    elif [ $ret = "recfailed" ]; then 
         # エラー, ドロップ, スクランブルカウントを読み込み
         if [ -z "$ERROR_CNT" ]; then
             ERROR_CNT="N/A"
