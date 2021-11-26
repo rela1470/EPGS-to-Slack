@@ -43,16 +43,16 @@ if [ $# = 1 ]; then
         startat="未設定"
     else  
         start_epg_time=$(($STARTAT/1000))
-        start_ust_time=$( unixtime2datetime $start_epg_time )
-        start_jst_time=$( date -d "$start_ust_time 9hours" +'%m/%d   %H:%M')
+        start_urc_time=$( unixtime2datetime $start_epg_time )
+        start_jst_time=$( date -d "$start_utc_time 9hours" +'%m/%d   %H:%M')
         startat=$start_jst_time        
     fi
     if [ -z "$ENDAT" ]; then
         endat="未設定"
     else
         end_epg_time=$(($ENDAT/1000))
-        end_ust_time=$( unixtime2datetime $end_epg_time )
-        end_jst_time=$( date -d "$end_ust_time 9hours" +'%H:%M')
+        end_utc_time=$( unixtime2datetime $end_epg_time )
+        end_jst_time=$( date -d "$end_utc_time 9hours" +'%H:%M')
         endat=$end_jst_time
     fi
     if [ -z "$EXTENDED" ]; then
