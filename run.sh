@@ -43,7 +43,7 @@ if [ $# = 1 ]; then
         startat="未設定"
     else  
         start_epg_time=$(($STARTAT/1000))
-        start_urc_time=$( unixtime2datetime $start_epg_time )
+        start_utc_time=$( unixtime2datetime $start_epg_time )
         start_jst_time=$( date -d "$start_utc_time 9hours" +'%m/%d   %H:%M')
         startat=$start_jst_time        
     fi
