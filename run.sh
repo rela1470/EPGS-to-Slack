@@ -19,11 +19,6 @@ unixtime2datetime() {
 if [ $# = 1 ]; then
 
     # チャンネル名, チャンネルタイプ, 番組名, 番組概要の読み込み
-    if [ -z "$CHANNELTYPE" ]; then
-        CHANNELTYPE="チャンネルタイプ未設定"
-    else
-        :
-    fi
     if [ -z "$CHANNELNAME" ]; then
         CHANNELNAME="放送局名なし"
     else
@@ -42,18 +37,23 @@ if [ $# = 1 ]; then
     if [ -z "$STARTAT" ]; then
         startat="未設定"
     else  
-        start_epg_time=$(($STARTAT/1000))
-        start_utc_time=$( unixtime2datetime $start_epg_time )
-        start_jst_time=$( date -d "$start_utc_time 9hours" +'%m/%d   %H:%M')
+    	 start_epg_time=$(($STARTAT/1000))
+        start_ust_time=$( unixtime2datetime $start_epg_time )
+        start_jst_time=$( date -d "$start_ust_time 9hours" +'%m/%d(%a)   %H:%M')
         startat=$start_jst_time        
     fi
     if [ -z "$ENDAT" ]; then
         endat="未設定"
     else
         end_epg_time=$(($ENDAT/1000))
-        end_utc_time=$( unixtime2datetime $end_epg_time )
-        end_jst_time=$( date -d "$end_utc_time 9hours" +'%H:%M')
+        end_ust_time=$( unixtime2datetime $end_epg_time )
+        end_jst_time=$( date -d "$end_ust_time 9hours" +'%H:%M')
         endat=$end_jst_time
+    fi
+    if [ -z "$DURATION" ]; then
+    	duration="未設定"
+    else
+        duration=$(($DURATION/60000))
     fi
     if [ -z "$EXTENDED" ]; then
         extended="未設定"
@@ -66,20 +66,20 @@ if [ $# = 1 ]; then
 
     # 予約関係: 追加, 削除, 更新, 録画準備
     if [ $ret = "reserve" ]; then
-        content="%0D%0A ✅ 予約追加 %0D%0A ${title} %0D%0A ${CHANNELTYPE} ${CHANNELNAME} %0D%0A ${startat}~${endat} %0D%0A ${description} %0D%0A ${extended}"
+        content="%0D%0A ✅ 予約追加 %0D%0A ${title} %0D%0A ${CHANNELNAME} %0D%0A ${startat}~${endat}     ${duration}"分"%0D%0A ${description} %0D%0A ${extended}"
     elif [ $ret = "delete" ]; then
-        content="%0D%0A 💨 予約削除 %0D%0A ${title} @ ${CHANNELTYPE} ${CHANNELNAME}"
+        content="%0D%0A 💨 予約削除 %0D%0A ${title} %0D%0A ${CHANNELNAME}"
     elif [ $ret = "update" ]; then
-        content="%0D%0A 🔁 予約更新 %0D%0A ${title} @ ${CHANNELTYPE} ${CHANNELNAME} %0D%0A ${startat}~${endat}"
+        content="%0D%0A 🔁 予約更新 %0D%0A ${title} %0D%0A ${CHANNELNAME} %0D%0A ${startat}~${endat}     ${duration}"分""
     elif [ $ret = "prestart" ]; then
-        content="%0D%0A 🔷 録画準備開始 %0D%0A ${title}　@ ${CHANNELTYPE} ${CHANNELNAME}"
+        content="%0D%0A 🔷 録画準備開始 %0D%0A ${title}　%0D%0A ${CHANNELNAME}"
     elif [ $ret = "prepfailed" ]; then
-        content="%0D%0A 💥 録画準備失敗 %0D%0A ${title}　@ ${CHANNELTYPE} ${CHANNELNAME}"
+        content="%0D%0A 💥 録画準備失敗 %0D%0A ${title}　%0D%0A ${CHANNELNAME}"
     elif [ $ret = "start" ]; then
-        content="%0D%0A ⏺ 録画開始 %0D%0A ${title}　@ ${CHANNELTYPE} ${CHANNELNAME}"
-    elif [ $ret = "encod_end" ]; then
-        content="%0D%0A ⏹ エンコード終了 %0D%0A ${title} @ ${CHANNELTYPE} ${CHANNELNAME}"
-    elif [ $ret = "end" ]; then
+        content="%0D%0A ⏺ 録画開始 %0D%0A ${title}　%0D%0A ${CHANNELNAME}"
+   elif [ $ret = "encod_end" ]; then
+        content="%0D%0A ⏹ エンコード終了 %0D%0A ${title} %0D%0A ${CHANNELNAME}"
+   elif [ $ret = "end" ]; then
           # エラー, ドロップ, スクランブルカウントを読み込み
         if [ -z "$ERROR_CNT" ]; then
             ERROR_CNT="N/A"
@@ -96,9 +96,9 @@ if [ $# = 1 ]; then
         else
             : # 何もしない
         fi
-        content="%0D%0A ⏹ 録画終了 %0D%0A ${title} @ ${CHANNELTYPE} ${CHANNELNAME} %0D%0A エラー: ${ERROR_CNT}, ドロップ: ${DROP_CNT}, スクランブル: ${SCRAMBLING_CNT}"
+        content="%0D%0A ⏹ 録画終了 %0D%0A ${title} %0D%0A ${CHANNELNAME} %0D%0A エラー: ${ERROR_CNT}, ドロップ: ${DROP_CNT}, スクランブル: ${SCRAMBLING_CNT}"
     elif [ $ret = "recfailed" ]; then 
-        # エラー, ドロップ, スクランブルカウントを読み込み
+         # エラー, ドロップ, スクランブルカウントを読み込み
         if [ -z "$ERROR_CNT" ]; then
             ERROR_CNT="N/A"
         else
@@ -114,7 +114,7 @@ if [ $# = 1 ]; then
         else
             : # 何もしない
         fi
-        content="%0D%0A ❌ 録画失敗 %0D%0A ${title} @ ${CHANNELTYPE} ${CHANNELNAME} %0D%0A エラー: ${ERROR_CNT}, ドロップ: ${DROP_CNT}, スクランブル: ${SCRAMBLING_CNT}"
+        content="%0D%0A ❌ 録画失敗 %0D%0A ${title} %0D%0A ${CHANNELNAME} %0D%0A エラー: ${ERROR_CNT}, ドロップ: ${DROP_CNT}, スクランブル: ${SCRAMBLING_CNT}"
     else
         echo "引数が不正です。"
         exit 1
