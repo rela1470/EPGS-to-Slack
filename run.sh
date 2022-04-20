@@ -80,9 +80,7 @@ if [ $# = 1 ]; then
     elif [ $ret = "encod_end" ]; then
         content="%0D%0A ⏹ エンコード終了 %0D%0A ${title} %0D%0A ${CHANNELNAME}"
     elif [ $ret = "end" ]; then
-        content="%0D%0A ⏹ 録画終了 %0D%0A ${title} %0D%0A ${CHANNELNAME} %0D%0A エラー: ${ERROR_CNT}, ドロップ: ${DROP_CNT}, スクランブル: ${SCRAMBLING_CNT}"
-    elif [ $ret = "recfailed" ]; then 
-         # エラー, ドロップ, スクランブルカウントを読み込み
+          # エラー, ドロップ, スクランブルカウントを読み込み
         if [ -z "$ERROR_CNT" ]; then
             ERROR_CNT="N/A"
         else
@@ -98,6 +96,8 @@ if [ $# = 1 ]; then
         else
             : # 何もしない
         fi
+        content="%0D%0A ⏹ 録画終了 %0D%0A ${title} %0D%0A ${CHANNELNAME} %0D%0A ${startat}~${endat}     ${duration}"分"  %0D%0A エラー: ${ERROR_CNT}, ドロップ: ${DROP_CNT}, スクランブル: ${SCRAMBLING_CNT}"
+    elif [ $ret = "recfailed" ]; then 
         content="%0D%0A ❌ 録画失敗 %0D%0A ${title} %0D%0A ${CHANNELNAME} %0D%0A エラー: ${ERROR_CNT}, ドロップ: ${DROP_CNT}, スクランブル: ${SCRAMBLING_CNT}"
     else
         echo "引数が不正です。"
