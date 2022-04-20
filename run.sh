@@ -77,25 +77,9 @@ if [ $# = 1 ]; then
         content="%0D%0A 💥 録画準備失敗 %0D%0A ${title}　%0D%0A ${CHANNELNAME}"
     elif [ $ret = "start" ]; then
         content="%0D%0A ⏺ 録画開始 %0D%0A ${title}　%0D%0A ${CHANNELNAME}"
-   elif [ $ret = "encod_end" ]; then
+    elif [ $ret = "encod_end" ]; then
         content="%0D%0A ⏹ エンコード終了 %0D%0A ${title} %0D%0A ${CHANNELNAME}"
-   elif [ $ret = "end" ]; then
-          # エラー, ドロップ, スクランブルカウントを読み込み
-        if [ -z "$ERROR_CNT" ]; then
-            ERROR_CNT="N/A"
-        else
-            : # 何もしない
-        fi
-        if [ -z "$DROP_CNT" ]; then
-            DROP_CNT="N/A"
-        else
-            : # 何もしない
-        fi
-        if [ -z "$SCRAMBLING_CNT" ]; then
-            SCRAMBLING_CNT="N/A"
-        else
-            : # 何もしない
-        fi
+    elif [ $ret = "end" ]; then
         content="%0D%0A ⏹ 録画終了 %0D%0A ${title} %0D%0A ${CHANNELNAME} %0D%0A エラー: ${ERROR_CNT}, ドロップ: ${DROP_CNT}, スクランブル: ${SCRAMBLING_CNT}"
     elif [ $ret = "recfailed" ]; then 
          # エラー, ドロップ, スクランブルカウントを読み込み
