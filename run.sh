@@ -98,7 +98,7 @@ if [ $# = 1 ]; then
         fi
         content="%0D%0A ⏹ 録画終了 %0D%0A ${title} %0D%0A ${CHANNELNAME} %0D%0A ${startat}~${endat}     ${duration}"分"  %0D%0A エラー: ${ERROR_CNT}, ドロップ: ${DROP_CNT}, スクランブル: ${SCRAMBLING_CNT}"
     elif [ $ret = "recfailed" ]; then 
-        content="%0D%0A ❌ 録画失敗 %0D%0A ${title} %0D%0A ${CHANNELNAME} %0D%0A エラー: ${ERROR_CNT}, ドロップ: ${DROP_CNT}, スクランブル: ${SCRAMBLING_CNT}"
+        content="%0D%0A ❌ 録画失敗 %0D%0A ${title} %0D%0A ${CHANNELNAME}"
     else
         echo "引数が不正です。"
         exit 1
