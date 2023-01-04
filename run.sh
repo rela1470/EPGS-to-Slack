@@ -1,7 +1,8 @@
 #!/bin/sh
 
-# 環境変数 LINE_TOKEN に取得したトークンを指定してください。
-LINE_TOKEN="ここにLINE_TOKEN貼付け"
+# 環境変数 SLACK_BOT_TOKEN に取得したトークンを指定してください。(scope: chat.write)
+SLACK_BOT_TOKEN="ここに貼り付け"
+SLACK_CHANNEL="ここに貼り付け"
 
 unixtime2datetime() {
     set -- $(( $1%86400 )) $(( $1/86400+719468 )) 146097 36524 1461
@@ -71,13 +72,13 @@ if [ $# = 1 ]; then
         content="%0D%0A 💨 予約削除 %0D%0A ${title} %0D%0A ${CHANNELNAME}"
     elif [ $ret = "update" ]; then
         content="%0D%0A 🔁 予約更新 %0D%0A ${title} %0D%0A ${CHANNELNAME} %0D%0A ${startat}~${endat}     ${duration}"分""
-    elif [ $ret = "prestart" ]; then
+    elif [ $ret = "pre_start" ]; then
         content="%0D%0A 🔷 録画準備開始 %0D%0A ${title}　%0D%0A ${CHANNELNAME}"
-    elif [ $ret = "prepfailed" ]; then
+    elif [ $ret = "prep_failed" ]; then
         content="%0D%0A 💥 録画準備失敗 %0D%0A ${title}　%0D%0A ${CHANNELNAME}"
     elif [ $ret = "start" ]; then
         content="%0D%0A ⏺ 録画開始 %0D%0A ${title}　%0D%0A ${CHANNELNAME}"
-    elif [ $ret = "encod_end" ]; then
+    elif [ $ret = "encode_end" ]; then
         content="%0D%0A ⏹ エンコード終了 %0D%0A ${title} %0D%0A ${CHANNELNAME}"
     elif [ $ret = "end" ]; then
           # エラー, ドロップ, スクランブルカウントを読み込み
@@ -97,14 +98,14 @@ if [ $# = 1 ]; then
             : # 何もしない
         fi
         content="%0D%0A ⏹ 録画終了 %0D%0A ${title} %0D%0A ${CHANNELNAME} %0D%0A ${startat}~${endat}     ${duration}"分"  %0D%0A エラー: ${ERROR_CNT}, ドロップ: ${DROP_CNT}, スクランブル: ${SCRAMBLING_CNT}"
-    elif [ $ret = "recfailed" ]; then 
+    elif [ $ret = "rec_failed" ]; then
         content="%0D%0A ❌ 録画失敗 %0D%0A ${title} %0D%0A ${CHANNELNAME}"
     else
         echo "引数が不正です。"
         exit 1
     fi
-    
-    curl -X POST -H "Authorization: Bearer ${LINE_TOKEN}" --data "message=${content}" GetAsURLEncoded https://notify-api.line.me/api/notify
+
+    curl -X POST "https://slack.com/api/chat.postMessage" --data "token=${SLACK_BOT_TOKEN}" --data "channel=${SLACK_CHANNEL}" --data "text=${content}"
     
 else
     echo "引数を指定してください。"
